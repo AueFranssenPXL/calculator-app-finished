@@ -1,3 +1,5 @@
+name: Checkout Example
+
 on:
   push:
     branches:
@@ -16,6 +18,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Verify checkout
-      - name: List repository files
-        run: ls -la
+      # Step 2: Verify directory contents
+      - name: Verify directory contents
+        run: ls -alhR
