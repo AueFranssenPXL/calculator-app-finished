@@ -1,0 +1,33 @@
+
+name: Build Example
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js and NPM
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Run unit tests and create report
+      - name: Run unit tests
+        run: npm test -- --reporter=junit
+        continue-on-error: true
+
+      # Step 5: Bundle application into ZIP
+      - name: Create ZIP archive
+        run: zip -r complete.zip . -x ".git/*" ".github/*" "complete.zip"
