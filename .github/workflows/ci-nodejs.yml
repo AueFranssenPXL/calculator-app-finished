@@ -1,0 +1,47 @@
+
+name: CI Node.js
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          repository: PXL-2TIN-DevOps-Resources/calculator-app-finished
+
+      # Step 2: Set up Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Step 4: Run unit tests and generate coverage
+      - name: Run unit tests
+        run: npm test -- --coverage
+
+      # Step 5: Verify coverage report
+      - name: Verify coverage report
+        run: ls -alhR coverage/
+
+      # Step 6: Upload coverage report
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-coverage-report
+          path: coverage/
+          if-no-files-found: warn
