@@ -38,5 +38,5 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           working-directory: .
-          coverage-file: 
+          coverage-file: coverage/clover.xml
           upload-coverage-report: true
